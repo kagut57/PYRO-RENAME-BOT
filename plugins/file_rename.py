@@ -119,7 +119,7 @@ async def doc(bot, update):
     try:
         if type == "document":
             await bot.send_document(
-                update.message.chat.id,
+                message.chat.id,
                 document=file_path,
                 thumb=ph_path, 
                 caption=caption, 
@@ -127,7 +127,7 @@ async def doc(bot, update):
                 progress_args=("Uᴩʟᴏᴅ Sᴛᴀʀᴛᴇᴅ....", ms, time.time()))
         elif type == "video": 
             await bot.send_video(
-		update.message.chat.id,
+		message.chat.id,
 	        video=file_path,
 	        caption=caption,
 		thumb=ph_path,
@@ -136,7 +136,7 @@ async def doc(bot, update):
 		progress_args=("Uᴩʟᴏᴅ Sᴛᴀʀᴛᴇᴅ....", ms, time.time()))
         elif type == "audio": 
             await bot.send_audio(
-		update.message.chat.id,
+		message.chat.id,
 		audio=file_path,
 		caption=caption,
 		thumb=ph_path,
