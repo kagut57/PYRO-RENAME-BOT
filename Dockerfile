@@ -1,5 +1,13 @@
 FROM python:3.10
-WORKDIR /app
-COPY . /app/
+
+RUN apt-get -y update && \
+    apt-get install -y --no-install-recommends git ffmpeg && \
+    rm -rf /var/lib/apt/lists/*
+    
+RUN git clone https://github.com/kagut57/RENAME-BOT/ app
+
+WORKDIR app
+
 RUN pip install -r requirements.txt
-CMD ["python", "bot.py"]
+
+CMD ["bash", "run.sh"]
