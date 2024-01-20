@@ -71,13 +71,13 @@ async def refunc(client, message):
 
 
 @Client.on_callback_query(filters.regex("upload"))
-async def doc(bot, message):
-    new_name = message.text
+async def doc(bot, update):
+    new_name = update.message.text
     new_filename = new_name.split(":-")[1]
     file_path = f"downloads/{new_filename}"
-    file = message.reply_to_message
+    file = update.message.reply_to_message
 
-    ms = await message.edit("Tʀyɪɴɢ Tᴏ Dᴏᴡɴʟᴏᴀᴅɪɴɢ....")    
+    ms = await update.message.edit("Tʀyɪɴɢ Tᴏ Dᴏᴡɴʟᴏᴀᴅɪɴɢ....")    
     try:
         path = await bot.download_media(message=file, file_name=file_path, progress=progress_for_pyrogram, progress_args=("Dᴏᴡɴʟᴏᴀᴅ Sᴛᴀʀᴛᴇᴅ....", ms, time.time()))                    
     except Exception as e:
@@ -91,10 +91,10 @@ async def doc(bot, message):
     except:
         pass
     ph_path = None
-    user_id = int(message.chat.id) 
+    user_id = int(update.message.chat.id) 
     media = getattr(file, file.media.value)
-    c_caption = await db.get_caption(message.chat.id)
-    c_thumb = await db.get_thumbnail(message.chat.id)
+    c_caption = await db.get_caption(update.message.chat.id)
+    c_thumb = await db.get_thumbnail(update.message.chat.id)
 
     if c_caption:
         try:
@@ -115,11 +115,11 @@ async def doc(bot, message):
         img.save(ph_path, "JPEG")
 
     await ms.edit("Tʀyɪɴɢ Tᴏ Uᴩʟᴏᴀᴅɪɴɢ....")
-    type = message.data.split("_")[1]
+    type = update.data.split("_")[1]
     try:
         if type == "document":
             await bot.send_document(
-                message.chat.id,
+                update.message.chat.id,
                 document=file_path,
                 thumb=ph_path, 
                 caption=caption, 
@@ -127,7 +127,7 @@ async def doc(bot, message):
                 progress_args=("Uᴩʟᴏᴅ Sᴛᴀʀᴛᴇᴅ....", ms, time.time()))
         elif type == "video": 
             await bot.send_video(
-                message.chat.id,
+                update.message.chat.id,
                 video=file_path,
                 caption=caption,
                 thumb=ph_path,
@@ -136,7 +136,7 @@ async def doc(bot, message):
                 progress_args=("Uᴩʟᴏᴅ Sᴛᴀʀᴛᴇᴅ....", ms, time.time()))
         elif type == "audio": 
             await bot.send_audio(
-                message.chat.id,
+                update.message.chat.id,
                 audio=file_path,
                 caption=caption,
                 thumb=ph_path,
@@ -151,6 +151,7 @@ async def doc(bot, message):
 
     await ms.delete() 
     os.remove(file_path)
+
 
 
 
